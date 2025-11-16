@@ -1,0 +1,20 @@
+<svg width="400" height="500" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="400" height="500" fill="#e8f4f0"/>
+  
+  <!-- Profile silhouette -->
+  <circle cx="200" cy="150" r="70" fill="#7ec8a3"/>
+  <path d="M 100 500 Q 200 350 300 500" fill="#7ec8a3"/>
+  
+  <!-- Text -->
+  <text x="200" y="420" font-family="Arial, sans-serif" font-size="18" fill="#2c5f7c" text-anchor="middle" font-weight="bold">
+    ZDJĘCIE PROFILOWE
+  </text>
+  <text x="200" y="445" font-family="Arial, sans-serif" font-size="14" fill="#4a9eba" text-anchor="middle">
+    Beata Berkowska
+  </text>
+  <text x="200" y="465" font-family="Arial, sans-serif" font-size="12" fill="#666666" text-anchor="middle">
+    400 x 500 px
+  </text>
+</svg>
+

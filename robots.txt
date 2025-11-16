@@ -1,0 +1,11 @@
+# robots.txt for psycholog-berkowska.pl
+
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://psycholog-berkowska.pl/sitemap.xml
+
+# Crawl-delay (optional, helps prevent server overload)
+Crawl-delay: 1
+
