@@ -16,6 +16,11 @@ function revealContact(button, type) {
         phoneLink.setAttribute('aria-label', 'Zadzwoń: ' + contactData);
 
         hiddenSpan.replaceWith(phoneLink);
+
+        // Track phone reveal conversion
+        if (typeof window.trackPhoneReveal === 'function') {
+            window.trackPhoneReveal();
+        }
     } else if (type === 'email') {
         contactData = hiddenSpan.getAttribute('data-email');
         // Create clickable email link
@@ -26,6 +31,11 @@ function revealContact(button, type) {
         emailLink.setAttribute('aria-label', 'Wyślij email: ' + contactData);
 
         hiddenSpan.replaceWith(emailLink);
+
+        // Track email reveal conversion
+        if (typeof window.trackEmailReveal === 'function') {
+            window.trackEmailReveal();
+        }
     }
 
     // Remove the button with fade out effect
@@ -127,6 +137,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (response.ok) {
                     alert('Dziękuję za wiadomość! Skontaktuję się z Tobą wkrótce.');
                     this.reset();
+
+                    // Track contact form submission conversion
+                    if (typeof window.trackContactFormSubmission === 'function') {
+                        window.trackContactFormSubmission();
+                    }
                 } else {
                     alert('Wystąpił błąd. Spróbuj ponownie później lub napisz maila na psycholog.berkowska@gmail.com.');
                 }
@@ -136,12 +151,23 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
+    // Track booking button clicks
+    const bookingButton = document.getElementById('booking-button-main');
+    if (bookingButton) {
+        bookingButton.addEventListener('click', function() {
+            // Track booking click conversion
+            if (typeof window.trackBookingClick === 'function') {
+                window.trackBookingClick();
+            }
+        });
+    }
+
     // Add animation on scroll
     const observerOptions = {
         threshold: 0.1,
         rootMargin: '0px 0px -50px 0px'
     };
-    
+
     const observer = new IntersectionObserver(function(entries) {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
@@ -150,7 +176,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }, observerOptions);
-    
+
     // Observe elements for animation
     const animatedElements = document.querySelectorAll('.service-card, .specialization-item, .pricing-card');
     animatedElements.forEach(el => {

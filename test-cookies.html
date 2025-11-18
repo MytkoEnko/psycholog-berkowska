@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Cookie Consent</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        h1 {
+            color: #2c5f7c;
+        }
+        .test-section {
+            background: #f8f9fa;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            border-left: 4px solid #2c5f7c;
+        }
+        .status {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+        }
+        .status.success {
+            background: #d4edda;
+            color: #155724;
+        }
+        .status.error {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        .status.info {
+            background: #d1ecf1;
+            color: #0c5460;
+        }
+        button {
+            background: #2c5f7c;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background: #4a9eba;
+        }
+        pre {
+            background: #f4f4f4;
+            padding: 15px;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+        code {
+            font-family: 'Courier New', monospace;
+        }
+    </style>
+</head>
+<body>
+    <h1>🍪 Test Cookie Consent System</h1>
+    
+    <div class="test-section">
+        <h2>Status zgód na pliki cookie</h2>
+        <div id="consent-status"></div>
+        <button onclick="checkConsent()">Sprawdź status</button>
+        <button onclick="clearConsent()">Wyczyść zgody (reset)</button>
+    </div>
+
+    <div class="test-section">
+        <h2>Akcje testowe</h2>
+        <button onclick="showBanner()">Pokaż banner</button>
+        <button onclick="showSettings()">Pokaż ustawienia</button>
+        <button onclick="acceptAll()">Akceptuj wszystkie</button>
+        <button onclick="rejectAll()">Odrzuć wszystkie</button>
+    </div>
+
+    <div class="test-section">
+        <h2>Sprawdź localStorage</h2>
+        <div id="localstorage-content"></div>
+        <button onclick="checkLocalStorage()">Sprawdź localStorage</button>
+    </div>
+
+    <div class="test-section">
+        <h2>Sprawdź czy skrypty się załadowały</h2>
+        <div id="scripts-status"></div>
+        <button onclick="checkScripts()">Sprawdź skrypty</button>
+    </div>
+
+    <div class="test-section">
+        <h2>Instrukcje testowania</h2>
+        <ol>
+            <li>Otwórz tę stronę w trybie incognito (Ctrl+Shift+N)</li>
+            <li>Kliknij "Sprawdź status" - powinno pokazać "Brak zgód"</li>
+            <li>Kliknij "Pokaż banner" - powinien pojawić się banner na dole</li>
+            <li>Kliknij "Akceptuj wszystkie" w bannerze</li>
+            <li>Kliknij "Sprawdź status" - powinno pokazać wszystkie zgody jako TRUE</li>
+            <li>Odśwież stronę - banner nie powinien się pokazać</li>
+            <li>Kliknij "Wyczyść zgody" aby zresetować i testować ponownie</li>
+        </ol>
+    </div>
+
+    <script>
+        function checkConsent() {
+            const consent = localStorage.getItem('cookie_consent');
+            const statusDiv = document.getElementById('consent-status');
+            
+            if (!consent) {
+                statusDiv.innerHTML = '<div class="status error">❌ Brak zgód - użytkownik nie podjął jeszcze decyzji</div>';
+            } else {
+                const data = JSON.parse(consent);
+                statusDiv.innerHTML = `
+                    <div class="status success">✅ Zgody zapisane:</div>
+                    <pre><code>${JSON.stringify(data, null, 2)}</code></pre>
+                    <div class="status info">
+                        <strong>Niezbędne:</strong> ${data.necessary ? '✅ TAK' : '❌ NIE'}<br>
+                        <strong>Analityczne:</strong> ${data.analytics ? '✅ TAK' : '❌ NIE'}<br>
+                        <strong>Marketingowe:</strong> ${data.marketing ? '✅ TAK' : '❌ NIE'}<br>
+                        <strong>Data zgody:</strong> ${new Date(data.timestamp).toLocaleString('pl-PL')}
+                    </div>
+                `;
+            }
+        }
+
+        function clearConsent() {
+            localStorage.removeItem('cookie_consent');
+            document.cookie = 'cookie_consent=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+            alert('Zgody zostały wyczyszczone. Odśwież stronę aby zobaczyć banner ponownie.');
+            checkConsent();
+        }
+
+        function showBanner() {
+            if (window.CookieConsent) {
+                window.CookieConsent.showBanner();
+            } else {
+                alert('CookieConsent nie jest załadowany. Upewnij się, że cookie-consent.js jest dołączony.');
+            }
+        }
+
+        function showSettings() {
+            if (window.CookieConsent) {
+                window.CookieConsent.showSettings();
+            } else {
+                alert('CookieConsent nie jest załadowany.');
+            }
+        }
+
+        function acceptAll() {
+            if (window.CookieConsent) {
+                window.CookieConsent.acceptAll();
+                setTimeout(checkConsent, 500);
+            } else {
+                alert('CookieConsent nie jest załadowany.');
+            }
+        }
+
+        function rejectAll() {
+            if (window.CookieConsent) {
+                window.CookieConsent.rejectAll();
+                setTimeout(checkConsent, 500);
+            } else {
+                alert('CookieConsent nie jest załadowany.');
+            }
+        }
+
+        function checkLocalStorage() {
+            const div = document.getElementById('localstorage-content');
+            const allData = {};
+            
+            for (let i = 0; i < localStorage.length; i++) {
+                const key = localStorage.key(i);
+                allData[key] = localStorage.getItem(key);
+            }
+            
+            div.innerHTML = `
+                <div class="status info">Zawartość localStorage:</div>
+                <pre><code>${JSON.stringify(allData, null, 2)}</code></pre>
+            `;
+        }
+
+        function checkScripts() {
+            const div = document.getElementById('scripts-status');
+            const hasGtag = typeof window.gtag !== 'undefined';
+            const hasDataLayer = typeof window.dataLayer !== 'undefined';
+            
+            div.innerHTML = `
+                <div class="status ${hasGtag ? 'success' : 'error'}">
+                    ${hasGtag ? '✅' : '❌'} Google Analytics (gtag): ${hasGtag ? 'Załadowany' : 'Nie załadowany'}
+                </div>
+                <div class="status ${hasDataLayer ? 'success' : 'error'}">
+                    ${hasDataLayer ? '✅' : '❌'} DataLayer: ${hasDataLayer ? 'Załadowany' : 'Nie załadowany'}
+                </div>
+                <div class="status info">
+                    <strong>Uwaga:</strong> Skrypty Google Analytics załadują się tylko po wyrażeniu zgody na pliki analityczne.
+                </div>
+            `;
+        }
+
+        // Auto-check on load
+        window.addEventListener('load', function() {
+            checkConsent();
+        });
+    </script>
+</body>
+</html>
+

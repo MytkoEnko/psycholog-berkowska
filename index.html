@@ -42,6 +42,7 @@
     
     <!-- Stylesheet -->
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="cookie-consent.css">
     
     <!-- Structured Data / Schema.org -->
     <script type="application/ld+json">
@@ -240,7 +241,7 @@ W przypadku sesji online płatność musi zostać wykonana przed sesją lub bezp
                 <div class="booking-card">
                     <h3>📅 Kalendarz wizyt</h3>
                     <p>Zobacz wolne terminy i zarezerwuj wizytę przez platformę TwojPsycholog.pl</p>
-                    <a href="https://twojpsycholog.pl/profil-psychologa/beata-berkowska-6551" target="_blank" rel="noopener noreferrer" class="booking-button">
+                    <a href="https://twojpsycholog.pl/profil-psychologa/beata-berkowska-6551" target="_blank" rel="noopener noreferrer" class="booking-button" id="booking-button-main">
                         Sprawdź dostępność i umów wizytę
                     </a>
                     <p class="booking-note">Zostaniesz przekierowany do zewnętrznej platformy rezerwacyjnej</p>
@@ -340,12 +341,18 @@ W przypadku sesji online płatność musi zostać wykonana przed sesją lub bezp
                         <div class="form-group">
                             <label class="checkbox-label">
                                 <input type="checkbox" name="privacy" required>
-                                Akceptuję <a href="#polityka-prywatnosci">politykę prywatności</a> *
+                                    Akceptuję <a href="polityka-prywatnosci.html">politykę prywatności</a> *
                             </label>
                         </div>
                         <button type="submit" class="submit-button">Wyślij wiadomość</button>
                     </form>
                     <p class="form-note">* Pola wymagane</p>
+                    <p class="form-note" style="font-size: 0.85rem; color: #666; margin-top: 1rem; line-height: 1.6;">
+                        Administratorem Twoich danych osobowych jest Beata Berkowska. Dane będą przetwarzane w celu udzielenia odpowiedzi na Twoje zapytanie.
+                        Przysługuje Ci prawo dostępu do treści swoich danych oraz ich sprostowania, usunięcia, ograniczenia przetwarzania, prawo do przenoszenia danych,
+                        prawo wniesienia sprzeciwu oraz prawo do cofnięcia zgody. Szczegółowe informacje znajdują się w
+                        <a href="polityka-prywatnosci.html" target="_blank">polityce prywatności</a>.
+                    </p>
                 </div>
             </div>
         </div>
@@ -372,7 +379,9 @@ W przypadku sesji online płatność musi zostać wykonana przed sesją lub bezp
                 <div class="footer-section">
                     <h4>Linki</h4>
                     <ul>
-                        <li><a href="#polityka-prywatnosci">Polityka prywatności</a></li>
+                        <li><a href="polityka-prywatnosci.html">Polityka prywatności</a></li>
+                        <li><a href="polityka-cookies.html">Polityka cookies</a></li>
+                        <li><a href="#" class="manage-cookies-link">Zarządzaj cookies</a></li>
                         <li><a href="assets/regulamin.pdf" target="_blank">Regulamin</a></li>
                     </ul>
                 </div>
@@ -383,6 +392,98 @@ W przypadku sesji online płatność musi zostać wykonana przed sesją lub bezp
         </div>
     </footer>
 
+    <!-- Cookie Consent Banner -->
+    <div id="cookie-consent-banner">
+        <div class="cookie-banner-content">
+            <div class="cookie-banner-text">
+                <h3>🍪 Ta strona używa plików cookie</h3>
+                <p>
+                    Używamy plików cookie i podobnych technologii, aby zapewnić prawidłowe działanie strony,
+                    analizować ruch oraz personalizować treści reklamowe. Klikając "Akceptuję wszystkie",
+                    wyrażasz zgodę na używanie wszystkich plików cookie. Możesz również dostosować swoje
+                    preferencje, klikając "Dostosuj ustawienia".
+                </p>
+                <p>
+                    <a href="polityka-prywatnosci.html">Polityka prywatności</a> |
+                    <a href="polityka-cookies.html">Polityka cookies</a>
+                </p>
+            </div>
+            <div class="cookie-banner-buttons">
+                <button id="cookie-accept-all" class="cookie-btn cookie-btn-primary">
+                    Akceptuję wszystkie
+                </button>
+                <button id="cookie-reject-all" class="cookie-btn cookie-btn-secondary">
+                    Odrzuć wszystkie
+                </button>
+                <button id="cookie-customize" class="cookie-btn cookie-btn-outline">
+                    Dostosuj ustawienia
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cookie Settings Panel -->
+    <div id="cookie-settings">
+        <div class="cookie-settings-header">
+            <h3>Ustawienia plików cookie</h3>
+            <button id="cookie-settings-close" class="cookie-settings-close" aria-label="Zamknij">×</button>
+        </div>
+
+        <div class="cookie-categories">
+            <!-- Necessary Cookies -->
+            <div class="cookie-category">
+                <div class="cookie-category-header">
+                    <h4>Niezbędne pliki cookie</h4>
+                    <span class="cookie-always-active">Zawsze aktywne</span>
+                </div>
+                <p class="cookie-category-description">
+                    Te pliki cookie są niezbędne do prawidłowego działania strony internetowej.
+                    Umożliwiają podstawowe funkcje, takie jak nawigacja po stronie i dostęp do
+                    bezpiecznych obszarów. Nie można ich wyłączyć.
+                </p>
+            </div>
+
+            <!-- Analytics Cookies -->
+            <div class="cookie-category">
+                <div class="cookie-category-header">
+                    <h4>Pliki cookie analityczne</h4>
+                    <label class="cookie-toggle">
+                        <input type="checkbox" id="cookie-analytics">
+                        <span class="cookie-toggle-slider"></span>
+                    </label>
+                </div>
+                <p class="cookie-category-description">
+                    Te pliki cookie pozwalają nam analizować sposób korzystania ze strony,
+                    aby móc poprawiać jej wydajność i dostosowywać do potrzeb użytkowników.
+                    Zbieramy anonimowe dane statystyczne za pomocą Google Analytics.
+                </p>
+            </div>
+
+            <!-- Marketing Cookies -->
+            <div class="cookie-category">
+                <div class="cookie-category-header">
+                    <h4>Pliki cookie marketingowe</h4>
+                    <label class="cookie-toggle">
+                        <input type="checkbox" id="cookie-marketing">
+                        <span class="cookie-toggle-slider"></span>
+                    </label>
+                </div>
+                <p class="cookie-category-description">
+                    Te pliki cookie służą do wyświetlania spersonalizowanych reklam, które mogą
+                    Cię zainteresować. Używamy ich w ramach kampanii Google Ads. Pomagają nam
+                    również mierzyć skuteczność naszych kampanii reklamowych.
+                </p>
+            </div>
+        </div>
+
+        <div class="cookie-settings-buttons">
+            <button id="cookie-save-preferences" class="cookie-btn cookie-btn-primary">
+                Zapisz ustawienia
+            </button>
+        </div>
+    </div>
+
+    <script src="cookie-consent.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
