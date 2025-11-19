@@ -10,7 +10,7 @@
 
     const CONFIG = {
         GA_MEASUREMENT_ID: 'G-C215VZHTQ7', // TODO: Replace with your Google Analytics Measurement ID
-        GOOGLE_ADS_ID: 'AW-XXXXXXXXXX',    // TODO: Replace with your Google Ads Conversion ID
+        GOOGLE_ADS_ID: 'AW-17736572043',    // TODO: Replace with your Google Ads Conversion ID
 
         // Conversion Labels from Google Ads
         // To get these: Google Ads → Goals → Conversions → Click on conversion → Tag setup
