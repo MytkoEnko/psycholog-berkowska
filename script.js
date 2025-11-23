@@ -161,6 +161,15 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
+    const bookingButtonTop = document.getElementById('booking-button-top');
+    if (bookingButtonTop) {
+        bookingButtonTop.addEventListener('click', function() {
+            // Track booking click conversion
+            if (typeof window.trackBookingClickTop === 'function') {
+                window.trackBookingClickTop();
+            }
+        });
+    }
 
     // Add animation on scroll
     const observerOptions = {
