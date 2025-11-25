@@ -27,20 +27,24 @@
         // Configuration
         cookieName: 'cookie_consent',
         cookieExpiry: 365, // days
-        
+
         // Initialize
         init: function() {
+            // Initialize Google tags with consent mode BEFORE checking consent
+            // This loads the tags but prevents data collection until consent is given
+            this.initializeConsentMode();
+
             // Check if consent has already been given
             const consent = this.getConsent();
-            
+
             if (consent === null) {
                 // No consent yet - show banner
                 this.showBanner();
             } else {
-                // Consent exists - load scripts accordingly
-                this.loadScripts(consent);
+                // Consent exists - update consent mode accordingly
+                this.updateConsentMode(consent);
             }
-            
+
             // Setup event listeners
             this.setupEventListeners();
         },
@@ -105,31 +109,31 @@
                 analytics: true,
                 marketing: true
             });
-            this.loadScripts(consent);
+            this.updateConsentMode(consent);
             this.hideBanner();
         },
-        
+
         // Reject all (except necessary)
         rejectAll: function() {
             const consent = this.saveConsent({
                 analytics: false,
                 marketing: false
             });
-            this.loadScripts(consent);
+            this.updateConsentMode(consent);
             this.hideBanner();
         },
-        
+
         // Save custom preferences
         savePreferences: function() {
             const analyticsCheckbox = document.getElementById('cookie-analytics');
             const marketingCheckbox = document.getElementById('cookie-marketing');
-            
+
             const consent = this.saveConsent({
                 analytics: analyticsCheckbox ? analyticsCheckbox.checked : false,
                 marketing: marketingCheckbox ? marketingCheckbox.checked : false
             });
-            
-            this.loadScripts(consent);
+
+            this.updateConsentMode(consent);
             this.hideSettings();
             this.hideBanner();
         },
@@ -138,13 +142,27 @@
         showSettings: function() {
             const settings = document.getElementById('cookie-settings');
             const banner = document.getElementById('cookie-consent-banner');
-            
-            if (settings && banner) {
-                banner.style.display = 'none';
+
+            // Load current consent values into checkboxes
+            const consent = this.getConsent();
+            if (consent) {
+                const analyticsCheckbox = document.getElementById('cookie-analytics');
+                const marketingCheckbox = document.getElementById('cookie-marketing');
+
+                if (analyticsCheckbox) analyticsCheckbox.checked = consent.analytics || false;
+                if (marketingCheckbox) marketingCheckbox.checked = consent.marketing || false;
+            }
+
+            if (settings) {
                 settings.style.display = 'block';
                 setTimeout(() => {
                     settings.classList.add('show');
                 }, 10);
+            }
+
+            // Hide banner if it's visible
+            if (banner) {
+                banner.style.display = 'none';
             }
         },
         
@@ -159,67 +177,70 @@
             }
         },
         
-        // Load scripts based on consent
-        loadScripts: function(consent) {
-            if (consent.analytics) {
-                this.loadGoogleAnalytics();
-            }
-            
-            if (consent.marketing) {
-                this.loadGoogleAds();
-            }
-        },
-        
-        // Load Google Analytics
-        loadGoogleAnalytics: function() {
-            // Check if already loaded
-            if (window.gtag) return;
-
-            // Load gtag.js
-            const script = document.createElement('script');
-            script.async = true;
-            script.src = `https://www.googletagmanager.com/gtag/js?id=${CONFIG.GA_MEASUREMENT_ID}`;
-            document.head.appendChild(script);
-
-            // Initialize gtag
+        // Initialize Consent Mode - loads tags but denies consent by default
+        initializeConsentMode: function() {
+            // Initialize dataLayer and gtag
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             window.gtag = gtag;
 
-            gtag('js', new Date());
-            gtag('config', CONFIG.GA_MEASUREMENT_ID, {
-                'anonymize_ip': true, // GDPR requirement
-                'cookie_flags': 'SameSite=None;Secure'
+            // Set default consent to 'denied' as a placeholder
+            // This must be called BEFORE loading any Google tags
+            gtag('consent', 'default', {
+                'analytics_storage': 'denied',
+                'ad_storage': 'denied',
+                'ad_user_data': 'denied',
+                'ad_personalization': 'denied',
+                'wait_for_update': 500  // Wait 500ms for consent update
             });
 
-            console.log('Google Analytics loaded');
-        },
+            // Initialize gtag
+            gtag('js', new Date());
 
-        // Load Google Ads
-        loadGoogleAds: function() {
-            // Initialize gtag if not already done (might be loaded by Analytics)
-            if (!window.gtag) {
-                window.dataLayer = window.dataLayer || [];
-                function gtag(){dataLayer.push(arguments);}
-                window.gtag = gtag;
-                gtag('js', new Date());
-            }
+            // Load Google Analytics script
+            const gaScript = document.createElement('script');
+            gaScript.async = true;
+            gaScript.src = `https://www.googletagmanager.com/gtag/js?id=${CONFIG.GA_MEASUREMENT_ID}`;
+            document.head.appendChild(gaScript);
 
-            // Check if Google Ads script is already loaded
-            const existingScript = document.querySelector(`script[src*="${CONFIG.GOOGLE_ADS_ID}"]`);
-            if (existingScript) return;
+            // Configure Google Analytics
+            gaScript.onload = () => {
+                gtag('config', CONFIG.GA_MEASUREMENT_ID, {
+                    'anonymize_ip': true,
+                    'cookie_flags': 'SameSite=None;Secure'
+                });
+                console.log('Google Analytics tag loaded (consent mode)');
+            };
 
-            // Load Google Ads gtag script
-            const script = document.createElement('script');
-            script.async = true;
-            script.src = `https://www.googletagmanager.com/gtag/js?id=${CONFIG.GOOGLE_ADS_ID}`;
-            document.head.appendChild(script);
+            // Load Google Ads script
+            const adsScript = document.createElement('script');
+            adsScript.async = true;
+            adsScript.src = `https://www.googletagmanager.com/gtag/js?id=${CONFIG.GOOGLE_ADS_ID}`;
+            document.head.appendChild(adsScript);
 
             // Configure Google Ads
-            script.onload = () => {
-                window.gtag('config', CONFIG.GOOGLE_ADS_ID);
-                console.log('Google Ads loaded');
+            adsScript.onload = () => {
+                gtag('config', CONFIG.GOOGLE_ADS_ID);
+                console.log('Google Ads tag loaded (consent mode)');
             };
+        },
+
+        // Update consent mode based on user preferences
+        updateConsentMode: function(consent) {
+            if (!window.gtag) {
+                console.warn('gtag not initialized');
+                return;
+            }
+
+            // Update consent based on user preferences
+            window.gtag('consent', 'update', {
+                'analytics_storage': consent.analytics ? 'granted' : 'denied',
+                'ad_storage': consent.marketing ? 'granted' : 'denied',
+                'ad_user_data': consent.marketing ? 'granted' : 'denied',
+                'ad_personalization': consent.marketing ? 'granted' : 'denied'
+            });
+
+            console.log('Consent updated:', consent);
         },
 
         // Track conversion event
@@ -281,7 +302,11 @@
             if (closeBtn) {
                 closeBtn.addEventListener('click', () => {
                     this.hideSettings();
-                    this.showBanner();
+                    // Only show banner if user hasn't made a choice yet
+                    const consent = this.getConsent();
+                    if (consent === null) {
+                        this.showBanner();
+                    }
                 });
             }
 

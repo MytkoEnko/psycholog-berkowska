@@ -94,15 +94,44 @@
 
     <div class="test-section">
         <h2>Instrukcje testowania</h2>
+
+        <h3>Test 1: Podstawowa funkcjonalność</h3>
         <ol>
             <li>Otwórz tę stronę w trybie incognito (Ctrl+Shift+N)</li>
+            <li>Kliknij "Sprawdź skrypty" - <strong>skrypty Google powinny być już załadowane</strong> (nowa implementacja!)</li>
             <li>Kliknij "Sprawdź status" - powinno pokazać "Brak zgód"</li>
             <li>Kliknij "Pokaż banner" - powinien pojawić się banner na dole</li>
             <li>Kliknij "Akceptuj wszystkie" w bannerze</li>
             <li>Kliknij "Sprawdź status" - powinno pokazać wszystkie zgody jako TRUE</li>
             <li>Odśwież stronę - banner nie powinien się pokazać</li>
-            <li>Kliknij "Wyczyść zgody" aby zresetować i testować ponownie</li>
         </ol>
+
+        <h3>Test 2: Modyfikacja ustawień (FIX #2)</h3>
+        <ol>
+            <li>Po zaakceptowaniu wszystkich cookies (Test 1)</li>
+            <li>Kliknij "Pokaż ustawienia"</li>
+            <li><strong>✅ Checkboxy powinny być zaznaczone</strong> (pokazują aktualny stan zgód)</li>
+            <li>Odznacz "Pliki cookie marketingowe"</li>
+            <li>Kliknij "Zapisz ustawienia"</li>
+            <li>Kliknij "Sprawdź status" - marketing powinien być FALSE</li>
+            <li>Kliknij "Pokaż ustawienia" ponownie</li>
+            <li><strong>✅ Marketing powinien być odznaczony, analytics zaznaczony</strong></li>
+        </ol>
+
+        <h3>Test 3: Zamykanie ustawień (FIX #2)</h3>
+        <ol>
+            <li>Po zaakceptowaniu cookies</li>
+            <li>Kliknij "Pokaż ustawienia"</li>
+            <li>Kliknij "X" (zamknij) bez zapisywania</li>
+            <li><strong>✅ Banner NIE powinien się pojawić ponownie</strong></li>
+            <li>Ustawienia powinny się po prostu zamknąć</li>
+        </ol>
+
+        <div class="status info">
+            <strong>ℹ️ Ważne:</strong> W nowej implementacji skrypty Google Ads i Analytics ładują się od razu,
+            ale nie zbierają danych do momentu wyrażenia zgody przez użytkownika. To pozwala Google zweryfikować
+            obecność tagu na stronie, zachowując zgodność z RODO.
+        </div>
     </div>
 
     <script>
@@ -187,16 +216,22 @@
             const div = document.getElementById('scripts-status');
             const hasGtag = typeof window.gtag !== 'undefined';
             const hasDataLayer = typeof window.dataLayer !== 'undefined';
-            
+            const gaScripts = document.querySelectorAll('script[src*="googletagmanager.com/gtag/js"]');
+
             div.innerHTML = `
                 <div class="status ${hasGtag ? 'success' : 'error'}">
-                    ${hasGtag ? '✅' : '❌'} Google Analytics (gtag): ${hasGtag ? 'Załadowany' : 'Nie załadowany'}
+                    ${hasGtag ? '✅' : '❌'} Google gtag function: ${hasGtag ? 'Załadowany' : 'Nie załadowany'}
                 </div>
                 <div class="status ${hasDataLayer ? 'success' : 'error'}">
                     ${hasDataLayer ? '✅' : '❌'} DataLayer: ${hasDataLayer ? 'Załadowany' : 'Nie załadowany'}
                 </div>
+                <div class="status ${gaScripts.length > 0 ? 'success' : 'error'}">
+                    ${gaScripts.length > 0 ? '✅' : '❌'} Skrypty Google: ${gaScripts.length} załadowanych
+                </div>
                 <div class="status info">
-                    <strong>Uwaga:</strong> Skrypty Google Analytics załadują się tylko po wyrażeniu zgody na pliki analityczne.
+                    <strong>✅ Nowa implementacja (Consent Mode v2):</strong> Skrypty Google ładują się od razu,
+                    ale nie zbierają danych do momentu wyrażenia zgody. To pozwala Google zweryfikować tag
+                    na stronie, zachowując zgodność z RODO.
                 </div>
             `;
         }
@@ -206,6 +241,76 @@
             checkConsent();
         });
     </script>
+
+    <!-- Cookie Consent Banner -->
+    <div id="cookie-consent-banner">
+        <div class="cookie-banner-content">
+            <div class="cookie-banner-text">
+                <h3>🍪 Ta strona używa plików cookie</h3>
+                <p>
+                    Używamy plików cookie i podobnych technologii, aby zapewnić prawidłowe działanie strony,
+                    analizować ruch oraz personalizować treści reklamowe.
+                </p>
+            </div>
+            <div class="cookie-banner-buttons">
+                <button id="cookie-accept-all" class="cookie-btn cookie-btn-primary">
+                    Akceptuję wszystkie
+                </button>
+                <button id="cookie-reject-all" class="cookie-btn cookie-btn-secondary">
+                    Odrzuć wszystkie
+                </button>
+                <button id="cookie-customize" class="cookie-btn cookie-btn-outline">
+                    Dostosuj ustawienia
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cookie Settings Panel -->
+    <div id="cookie-settings">
+        <div class="cookie-settings-header">
+            <h3>Ustawienia plików cookie</h3>
+            <button id="cookie-settings-close" class="cookie-settings-close" aria-label="Zamknij">×</button>
+        </div>
+
+        <div class="cookie-categories">
+            <div class="cookie-category">
+                <div class="cookie-category-header">
+                    <h4>Niezbędne pliki cookie</h4>
+                    <span class="cookie-always-active">Zawsze aktywne</span>
+                </div>
+            </div>
+
+            <div class="cookie-category">
+                <div class="cookie-category-header">
+                    <h4>Pliki cookie analityczne</h4>
+                    <label class="cookie-toggle">
+                        <input type="checkbox" id="cookie-analytics">
+                        <span class="cookie-toggle-slider"></span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="cookie-category">
+                <div class="cookie-category-header">
+                    <h4>Pliki cookie marketingowe</h4>
+                    <label class="cookie-toggle">
+                        <input type="checkbox" id="cookie-marketing">
+                        <span class="cookie-toggle-slider"></span>
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div class="cookie-settings-buttons">
+            <button id="cookie-save-preferences" class="cookie-btn cookie-btn-primary">
+                Zapisz ustawienia
+            </button>
+        </div>
+    </div>
+
+    <link rel="stylesheet" href="cookie-consent.css">
+    <script src="cookie-consent.js"></script>
 </body>
 </html>
 
