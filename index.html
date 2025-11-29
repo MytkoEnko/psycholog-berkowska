@@ -8,9 +8,12 @@
     <!-- SEO Meta Tags -->
     <title>Psycholog Beata Berkowska - Pomoc Psychologiczna Poznań</title>
     <meta name="description" content="Profesjonalna pomoc psychologiczna w Poznaniu. Psycholog Beata Berkowska oferuje terapię indywidualną, wsparcie w trudnych sytuacjach życiowych oraz konsultacje psychologiczne.">
-    <meta name="keywords" content="psycholog Poznań, pomoc psychologiczna Poznań, terapia Poznań, psychoterapia, konsultacje psychologiczne, Beata Berkowska">
+    <meta name="keywords" content="psycholog Poznań, pomoc psychologiczna Poznań, terapia Poznań, psychoterapia, konsultacje psychologiczne, Beata Berkowska, terapia systemowa, NVC, psycholog online">
     <meta name="author" content="Beata Berkowska">
     <meta name="robots" content="index, follow">
+    <meta name="language" content="Polish">
+    <meta name="revisit-after" content="7 days">
+    <meta name="rating" content="general">
     
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
@@ -53,7 +56,14 @@
       "image": "https://psycholog-berkowska.pl/images/profile.jpg",
       "url": "https://psycholog-berkowska.pl",
       "telephone": "+48-792-967-143",
+      "email": "psycholog.berkowska@gmail.com",
       "priceRange": "$$",
+      "description": "Profesjonalna pomoc psychologiczna w Poznaniu. Psychoterapia indywidualna, konsultacje psychologiczne, terapia online. Specjalizacja w terapii systemowej i komunikacji bez przemocy (NVC).",
+      "availableLanguage": ["pl"],
+      "areaServed": {
+        "@type": "City",
+        "name": "Poznań"
+      },
       "address": {
         "@type": "PostalAddress",
         "streetAddress": "ul. Jana Żupańskiego 7/5",
@@ -66,22 +76,99 @@
         "latitude": 52.406374,
         "longitude": 16.925168
       },
-    "openingHoursSpecification": [
-    {
-        "@type": "OpeningHoursSpecification",
-        "dayOfWeek": "Monday",
-        "opens": "18:00",
-        "closes": "21:00"
-    },
-    {
-        "@type": "OpeningHoursSpecification",
-        "dayOfWeek": "Tuesday",
-        "opens": "16:00",
-        "closes": "22:00"
-    }
-    ],
+      "openingHoursSpecification": [
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": "Monday",
+          "opens": "18:00",
+          "closes": "21:00"
+        },
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": "Tuesday",
+          "opens": "16:00",
+          "closes": "22:00"
+        }
+      ],
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "Usługi psychologiczne",
+        "itemListElement": [
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Psychoterapia indywidualna",
+              "description": "Długoterminowe wsparcie psychologiczne dla osób dorosłych"
+            },
+            "price": "200",
+            "priceCurrency": "PLN"
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Konsultacje psychologiczne",
+              "description": "Jednorazowe spotkania konsultacyjne"
+            },
+            "price": "200",
+            "priceCurrency": "PLN"
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Psychoterapia online",
+              "description": "Sesje terapeutyczne prowadzone zdalnie"
+            },
+            "price": "200",
+            "priceCurrency": "PLN"
+          }
+        ]
+      },
       "sameAs": [
-        "https://www.facebook.com/psycholog.berkowska"
+        "https://www.facebook.com/psycholog.berkowska",
+        "https://www.znanylekarz.pl/beata-berkowska/psycholog-psychoterapeuta/poznan"
+      ]
+    }
+    </script>
+
+    <!-- Local Business Schema for better local SEO -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "LocalBusiness",
+      "name": "Psycholog Beata Berkowska",
+      "image": "https://psycholog-berkowska.pl/images/profile.jpg",
+      "@id": "https://psycholog-berkowska.pl",
+      "url": "https://psycholog-berkowska.pl",
+      "telephone": "+48-792-967-143",
+      "priceRange": "200 PLN",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "ul. Jana Żupańskiego 7/5",
+        "addressLocality": "Poznań",
+        "postalCode": "61-542",
+        "addressCountry": "PL"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 52.406374,
+        "longitude": 16.925168
+      },
+      "openingHoursSpecification": [
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": ["Monday"],
+          "opens": "18:00",
+          "closes": "21:00"
+        },
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": ["Tuesday"],
+          "opens": "16:00",
+          "closes": "22:00"
+        }
       ]
     }
     </script>
@@ -92,7 +179,7 @@
         <nav class="navbar">
             <div class="container">
                 <div class="logo">
-                    <h1>Beata Berkowska</h1>
+                    <div class="logo-text">Beata Berkowska</div>
                     <p class="subtitle">Psycholog</p>
                 </div>
                 <ul class="nav-menu">
@@ -116,9 +203,9 @@
     <section class="hero">
         <div class="container">
             <div class="hero-content">
-                <h2>Profesjonalna pomoc psychologiczna w Poznaniu</h2>
+                <h1>Profesjonalna pomoc psychologiczna w Poznaniu</h1>
                 <p class="hero-description">Wspieram w trudnych momentach życia, pomagam odnaleźć równowagę i zrozumieć siebie.</p>
-                <a href="https://twojpsycholog.pl/profil-psychologa/beata-berkowska-6551" target="_blank" rel="noopener noreferrer" class="cta-button" id="booking-button-top">Umów się na konsultację</a>
+                <a href="https://www.znanylekarz.pl/beata-berkowska/psycholog-psychoterapeuta/poznan?utm_source=website&utm_medium=hero_button#highlight-calendar" target="_blank" rel="noopener" class="cta-button" id="booking-button-top">Umów się na konsultację</a>
             </div>
         </div>
     </section>
@@ -234,18 +321,19 @@ W przypadku sesji online płatność musi zostać wykonana przed sesją lub bezp
     <section id="rezerwacja" class="booking">
         <div class="container">
             <h2>Rezerwacja wizyty</h2>
-            <p class="section-intro">Sprawdź dostępne terminy i umów się na wizytę online</p>
+            <p class="section-intro">Sprawdź dostępne terminy i umów się na wizytę</p>
 
             <div class="booking-options">
-                <div class="booking-card">
+                <!-- ZnanyLekarz Widget - Main Booking -->
+                <div class="booking-widget-column">
                     <h3>📅 Kalendarz wizyt</h3>
-                    <p>Zobacz wolne terminy i zarezerwuj wizytę przez platformę TwojPsycholog.pl</p>
-                    <a href="https://twojpsycholog.pl/profil-psychologa/beata-berkowska-6551" target="_blank" rel="noopener noreferrer" class="booking-button" id="booking-button-main">
-                        Sprawdź dostępność i umów wizytę
-                    </a>
-                    <p class="booking-note">Zostaniesz przekierowany do zewnętrznej platformy rezerwacyjnej</p>
+                    <p>Zobacz wolne terminy i zarezerwuj wizytę online</p>
+                    <div class="widget-container">
+                        <a id="zl-url" class="zl-url" href="https://www.znanylekarz.pl/beata-berkowska/psycholog-psychoterapeuta/poznan" rel="nofollow" data-zlw-doctor="beata-berkowska" data-zlw-type="big_with_calendar" data-zlw-opinion="false" data-zlw-hide-branding="true" data-zlw-saas-only="true" data-zlw-a11y-title="Widget umówienia wizyty lekarskiej">Beata Berkowska - ZnanyLekarz.pl</a>
+                    </div>
                 </div>
 
+                <!-- Alternative Contact Options -->
                 <div class="booking-card">
                     <h3>📞 Kontakt bezpośredni</h3>
                     <p>Wolisz umówić się telefonicznie lub mailowo? Skontaktuj się bezpośrednio:</p>
@@ -265,19 +353,6 @@ W przypadku sesji online płatność musi zostać wykonana przed sesją lub bezp
                     </div>
                 </div>
             </div>
-
-            <!-- Optional: Embedded calendar iframe - uncomment if TwojPsycholog provides embed code -->
-            <!--
-            <div class="calendar-embed">
-                <h3>Dostępne terminy</h3>
-                <iframe src="[EMBED_URL_FROM_TWOJPSYCHOLOG]"
-                        width="100%"
-                        height="600"
-                        frameborder="0"
-                        title="Kalendarz rezerwacji wizyt">
-                </iframe>
-            </div>
-            -->
         </div>
     </section>
 
@@ -481,6 +556,9 @@ W przypadku sesji online płatność musi zostać wykonana przed sesją lub bezp
             </button>
         </div>
     </div>
+
+    <!-- ZnanyLekarz Widget Script - Loads booking calendar widget from platform.docplanner.com -->
+    <script>!function($_x,_s,id){var js,fjs=$_x.getElementsByTagName(_s)[0];if(!$_x.getElementById(id)){js = $_x.createElement(_s);js.id = id;js.src = "//platform.docplanner.com/js/widget.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","zl-widget-s");</script>
 
     <script src="cookie-consent.js"></script>
     <script src="script.js"></script>

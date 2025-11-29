@@ -16,8 +16,7 @@
         // To get these: Google Ads → Goals → Conversions → Click on conversion → Tag setup
         CONVERSIONS: {
             CONTACT_FORM: 'Vy6cCPTEx8UbEIu5uolC',    // TODO: Replace with contact form conversion label
-            BOOKING_CLICK: '3GLECIaiycUbEIu5uolC',   // TODO: Replace with booking click conversion label
-            BOOKING_CLICK_TOP: 'AAAAAAA',
+            BOOKING_CLICK_TOP: '3GLECIaiycUbEIu5uolC',
             PHONE_REVEAL: 'LFJzCMDkx8UbEIu5uolC',    // TODO: Replace with phone reveal conversion label (optional)
             EMAIL_REVEAL: 'K4hKCKmrwsUbEIu5uolC'     // TODO: Replace with email reveal conversion label (optional)
         }
@@ -340,9 +339,6 @@
         CookieConsent.trackConversion(CONFIG.CONVERSIONS.CONTACT_FORM);
     };
 
-    window.trackBookingClick = function() {
-        CookieConsent.trackConversion(CONFIG.CONVERSIONS.BOOKING_CLICK);
-    };
     window.trackBookingClickTop = function() {
         CookieConsent.trackConversion(CONFIG.CONVERSIONS.BOOKING_CLICK_TOP);
     };

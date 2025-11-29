@@ -152,15 +152,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     // Track booking button clicks
-    const bookingButton = document.getElementById('booking-button-main');
-    if (bookingButton) {
-        bookingButton.addEventListener('click', function() {
-            // Track booking click conversion
-            if (typeof window.trackBookingClick === 'function') {
-                window.trackBookingClick();
-            }
-        });
-    }
     const bookingButtonTop = document.getElementById('booking-button-top');
     if (bookingButtonTop) {
         bookingButtonTop.addEventListener('click', function() {
