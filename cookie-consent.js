@@ -15,10 +15,10 @@
         // Conversion Labels from Google Ads
         // To get these: Google Ads → Goals → Conversions → Click on conversion → Tag setup
         CONVERSIONS: {
-            CONTACT_FORM: 'Vy6cCPTEx8UbEIu5uolC',    // TODO: Replace with contact form conversion label
-            BOOKING_CLICK_TOP: '3GLECIaiycUbEIu5uolC',
-            PHONE_REVEAL: 'LFJzCMDkx8UbEIu5uolC',    // TODO: Replace with phone reveal conversion label (optional)
-            EMAIL_REVEAL: 'K4hKCKmrwsUbEIu5uolC'     // TODO: Replace with email reveal conversion label (optional)
+            CONTACT_FORM: 'R7UNCN6XzeEbEIu5uolC',    // TODO: Replace with contact form conversion label
+            BOOKING_CLICK_TOP: '2qA2CNO-vuEbEIu5uolC',
+            PHONE_REVEAL: 'ABLvCM2-vuEbEIu5uolC',    // TODO: Replace with phone reveal conversion label (optional)
+            EMAIL_REVEAL: '6c_dCNC-vuEbEIu5uolC'     // TODO: Replace with email reveal conversion label (optional)
         }
     };
 
