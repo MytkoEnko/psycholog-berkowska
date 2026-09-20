@@ -73,6 +73,12 @@ function revealFooterContacts(event) {
 
 // Mobile Menu Toggle
 document.addEventListener('DOMContentLoaded', function() {
+    // Keep the footer copyright year current without editing it by hand
+    const copyrightYear = document.getElementById('copyright-year');
+    if (copyrightYear) {
+        copyrightYear.textContent = new Date().getFullYear();
+    }
+
     const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
     const navMenu = document.querySelector('.nav-menu');
     
